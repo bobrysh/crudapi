@@ -7,40 +7,44 @@ import { parseId } from './helper';
 export class Server {
   private _port: string | number;
   constructor(private controller: Controller) {
+    this._port = process.env['PORT'] || 1000;
     this.controller = controller;
-    this._port = process.env['PORT'] || 5000;
+
+    console.log(`Server is running on port ${this._port}`);
   }
 
   init() {
+    console.log('Server is running');
+    
     http
-      .createServer((req, res) => {
-        const id: string = parseId(req.url);
+      .createServer((request, response) => {
+        const id: string = parseId(request.url);
         if (
-          !req.url?.startsWith(Endpoit.users) ||
-          req.url.split('/').length > 4
+          !request.url?.startsWith(Endpoit.users) ||
+          request.url.split('/').length > 4
         ) {
-          this.controller.empty(res);
+          this.controller.empty(response);
         } 
         else if (!id.match(regular)) {
-          this.controller.invalidUserId(res);
+          this.controller.invalidUserId(response);
         }
-        else if (req.method === 'POST') {
-          this.controller.newUser(req, res);
+        else if (request.method === 'POST') {
+          this.controller.newUser(request, response);
         } 
-        else if (req.method === 'GET' && req.url === Endpoit.users) {
-          this.controller.getAllInfo(res);
+        else if (request.method === 'GET' && request.url === Endpoit.users) {
+          this.controller.getAllInfo(response);
         }  
-        else if (req.method === 'PUT' && id) {
-          this.controller.updateUser(req, res, id);
+        else if (request.method === 'PUT' && id) {
+          this.controller.updateUser(request, response, id);
         }
-        else if (req.method === 'GET' && id) {
-          this.controller.getUser(res, id);
+        else if (request.method === 'GET' && id) {
+          this.controller.getUser(response, id);
         }  
-        else if (req.method === 'DELETE' && id) {
-          this.controller.deleteUser(res, id);
+        else if (request.method === 'DELETE' && id) {
+          this.controller.deleteUser(response, id);
         } 
         else {
-          this.controller.empty(res);
+          this.controller.empty(response);
         }
       })
       .listen(this._port, () => {
@@ -49,6 +53,8 @@ export class Server {
   }
 
   get port() {
+    console.log(`Server is running on port ${this._port}`);
+    
     return this._port;
   }
 }

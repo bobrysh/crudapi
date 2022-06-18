@@ -16,6 +16,8 @@ export class Controller {
   }
 
   async newUser(req: any, res: any): Promise<any> {
+    // console.warn(req, res)
+
     let user: any;
     try {
       user = await parseRequestBody(req);
@@ -41,6 +43,8 @@ export class Controller {
   }
 
   async deleteUser(res: any, id: any) {
+    // console.warn( res)
+
     try {
       await this.model.deleteUser(id);
       this.createResponse(res, 204, { message: Messages.userDeleted });
@@ -51,6 +55,8 @@ export class Controller {
   }
 
   async updateUser(req: IncomingMessage, res: any, id: any) {
+    // console.warn(req, res)
+
     let user: any;
     try {
       user = await parseRequestBody(req);
@@ -67,6 +73,7 @@ export class Controller {
   }
 
   async getAllInfo(res: any): Promise<void> {
+    // console.warn(res)
     let data: any[] = [];
     try {
       data = await this.model.getdata();
@@ -77,6 +84,8 @@ export class Controller {
   }
 
   async getUser(res: any, id: any): Promise<void> {
+    // console.warn(id, res)
+
     try {
       const {user} = await this.model.getUser(id);
       this.createResponse(res, 200, user);
@@ -86,15 +95,21 @@ export class Controller {
   }
 
   createResponse(res: any, statusCode: number, payload: any): void {
+    // console.warn(payload, res)
+
     res.writeHead(statusCode, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(payload));
   }
 
   empty(res: any): void {
+    // console.warn( res)
+    
     this.createResponse(res, 404, { message: Messages.empty });
   }
 
   invalidUserId(res: any): void {
+    // console.warn( res)
+
     this.createResponse(res, 400, { message: Messages.invalidId });
   }
 }

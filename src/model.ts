@@ -14,7 +14,7 @@ export class Model {
   }
 
   getUser(id: string): Promise<any> {
-    console.warn(this.data);
+    // console.warn(this.data);
     
     return new Promise((resolve) => {
       let i: number = -1;
@@ -31,7 +31,7 @@ export class Model {
   }
 
   newUser(user: any): Promise<any> {
-    console.warn(user);
+    // console.warn(user);
 
     return new Promise((resolve) => {
       const exUser: any = { id: uuidv4(), ...user };
@@ -41,7 +41,7 @@ export class Model {
   }
 
   deleteUser(id: string): Promise<void> {
-    console.warn(id);
+    // console.warn(id);
 
     return new Promise((resolve) => {
       this.data = this.data.filter((record) => record.id !== id);
@@ -50,7 +50,7 @@ export class Model {
   }
 
   updateUser(user: any, id: string): Promise<any> {
-    console.warn(user,id);
+    // console.warn(user,id);
 
     return new Promise(async (resolve) => {
       const record = await this.getUser(id);

@@ -10,11 +10,11 @@ export class Server {
     this._port = process.env['PORT'] || 1000;
     this.controller = controller;
 
-    console.log(`Server is running on port ${this._port}`);
+    // console.log(`Server is running on port ${this._port}`);
   }
 
   init() {
-    console.log('Server is running');
+    // console.log('Server is running');
     
     http
       .createServer((request, response) => {
@@ -53,7 +53,7 @@ export class Server {
   }
 
   get port() {
-    console.log(`Server is running on port ${this._port}`);
+    // console.log(`Server is running on port ${this._port}`);
     
     return this._port;
   }

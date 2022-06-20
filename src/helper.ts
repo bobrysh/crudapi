@@ -1,4 +1,5 @@
 import type { IncomingMessage } from 'http';
+// import { validate as uuidValidate, version as uuidVersion } from 'uuid';
 
 export const parseId = (endpoint: any): string => {
   const args = endpoint ? endpoint.split('/') : [];
@@ -31,3 +32,5 @@ export const parseRequestBody = (
     }
   });
 };
+
+export const isValidId = (id: string) => id ? true : true

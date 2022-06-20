@@ -1,5 +1,3 @@
-// eslint-disable-next-line import/extensions
-/* eslint-disable import/extensions */
 import type { IncomingMessage } from 'http';
 import type { Model } from './model';
 import { Messages } from './settings';
@@ -22,7 +20,7 @@ export class Controller {
     try {
       user = await parseRequestBody(req);
     } catch (error) {
-      this.createResponse(res, 500, { message: Messages.InternalError });
+      Controller.createResponse(res, 500, { message: Messages.InternalError });
       return;
     }
     if (
@@ -33,12 +31,12 @@ export class Controller {
       let newUser: any;
       try {
         newUser = await this.model.newUser(user);
-        this.createResponse(res, 201, newUser);
+        Controller.createResponse(res, 201, newUser);
       } catch (error) {
-        this.createResponse(res, 500, { message: Messages.InternalError });
+        Controller.createResponse(res, 500, { message: Messages.InternalError });
       }
     } else {
-      this.createResponse(res, 400, { message: Messages.notEnoughData });
+      Controller.createResponse(res, 400, { message: Messages.notEnoughData });
     }
   }
 
@@ -47,9 +45,9 @@ export class Controller {
 
     try {
       await this.model.deleteUser(id);
-      this.createResponse(res, 204, { message: Messages.userDeleted });
+      Controller.createResponse(res, 204, { message: Messages.userDeleted });
     } catch (error) {
-      this.createResponse(res, 500, { message: Messages.InternalError });
+      Controller.createResponse(res, 500, { message: Messages.InternalError });
     }
     throw new Error('Method not implemented.');
   }
@@ -61,14 +59,14 @@ export class Controller {
     try {
       user = await parseRequestBody(req);
     } catch (error) {
-      this.createResponse(res, 500, { message: Messages.InternalError });
+      Controller.createResponse(res, 500, { message: Messages.InternalError });
       return;
     }
     try {
       const updatedUser: any = await this.model.updateUser(user, id);
-      this.createResponse(res, 200, updatedUser);
+      Controller.createResponse(res, 200, updatedUser);
     } catch (error) {
-      this.createResponse(res, 500, { message: Messages.InternalError });
+      Controller.createResponse(res, 500, { message: Messages.InternalError });
     }
   }
 
@@ -77,9 +75,9 @@ export class Controller {
     let data: any[] = [];
     try {
       data = await this.model.getdata();
-      this.createResponse(res, 200, data);
+      Controller.createResponse(res, 200, data);
     } catch (error) {
-      this.createResponse(res, 500, { message: Messages.InternalError });
+      Controller.createResponse(res, 500, { message: Messages.InternalError });
     }
   }
 
@@ -88,28 +86,28 @@ export class Controller {
 
     try {
       const {user} = await this.model.getUser(id);
-      this.createResponse(res, 200, user);
+      Controller.createResponse(res, 200, user);
     } catch (error) {
-      this.createResponse(res, 500, { message: Messages.InternalError });
+      Controller.createResponse(res, 500, { message: Messages.InternalError });
     }
   }
 
-  createResponse(res: any, statusCode: number, payload: any): void {
+  static createResponse(res: any, statusCode: number, payload: any): void {
     // console.warn(payload, res)
 
     res.writeHead(statusCode, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(payload));
   }
 
-  empty(res: any): void {
+  static empty(res: any): void {
     // console.warn( res)
     
-    this.createResponse(res, 404, { message: Messages.empty });
+    Controller.createResponse(res, 404, { message: Messages.empty });
   }
 
-  invalidUserId(res: any): void {
+  static invalidUserId(res: any): void {
     // console.warn( res)
 
-    this.createResponse(res, 400, { message: Messages.invalidId });
+    Controller.createResponse(res, 400, { message: Messages.invalidId });
   }
 }

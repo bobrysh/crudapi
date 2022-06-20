@@ -1,14 +1,14 @@
 export const database: any[] = [
   {
-    id: 'Granici kly4',
+    id: '123123123123',
     username: 'FE',
     age: 100500,
-    hobbies: ['typescript', 'javascript', 'python'],
+    hobbies: ['typescript'],
   },
   {
-    id: 'perelomlen popolam',
+    id: '12312312312312',
     username: 'BE',
     age: 30,
-    hobbies: ['node', 'javascript', 'python'],
+    hobbies: ['node'],
   },
 ];
